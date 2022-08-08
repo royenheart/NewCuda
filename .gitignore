@@ -1,0 +1,4 @@
+materials/*
+cudaToolkitDocs/*
+vc140.pdb
+unitTests/out/*

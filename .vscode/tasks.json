@@ -1,0 +1,72 @@
+{
+    // 编译命令参数，编译程序地址请改成运行机上相应程序地址
+    // 使用nvcc进行编译
+    // 使用MSVC编译器（mingw不支持），cl.exe为MSVC中用于windows平台上进行C/C++程序的编译
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "BuildWithNVCC unit tests",
+            "type": "shell",
+            "command": "nvcc",
+            "args": [
+                "-ccbin",
+                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64",
+                "-I",
+                "${workspaceFolder}/unitTests/headers",
+                "-I",
+                "D:\\Git\\opencv-4.4.0\\build\\install\\include",
+                "-L",
+                "${workspaceFolder}/unitTests/lib",
+                "-L",
+                "D:\\Git\\opencv-4.4.0\\build\\install\\x64\\vc16\\lib",
+                "-l", "opencv_core440",
+                "-l", "opencv_imgproc440",
+                "-l", "opencv_imgcodecs440",
+                "-l", "opencv_video440",
+                "-l", "opencv_ml440",
+                "-l", "opencv_highgui440",
+                "-l", "opencv_objdetect440",
+                "-l", "opencv_calib3d440",
+                "-l", "opencv_dnn440",
+                "-l", "opencv_features2d440",
+                "-l", "opencv_flann440",
+                "-l", "opencv_gapi440",
+                "-l", "opencv_photo440",
+                "-l", "opencv_imgcodecs440",
+                "-l", "opencv_videoio440",
+                "-l", "opencv_stitching440",
+                "${file}",
+                // 附加调试信息
+                "-g",
+                "-o",
+                "${workspaceFolder}/unitTests/out/${fileBasenameNoExtension}"
+            ]
+        },
+        {
+            "label": "BuildWithG++ unit tests",
+            "command": "g++",
+            "args": [
+                "-g",
+                "${file}",
+                "-I",
+                "${workspaceFolder}/unitTests/headers",
+                "-pthread",
+                "-std=c++17",
+                "-o",
+                "${workspaceFolder}/unitTests/out/${fileBasenameNoExtension}.exe"
+            ],
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            }
+        }
+    ],
+}
