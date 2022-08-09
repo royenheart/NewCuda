@@ -15,6 +15,8 @@
                 "${workspaceFolder}/unitTests/headers",
                 "-I",
                 "D:\\Git\\opencv-4.4.0\\build\\install\\include",
+                "-I",
+                "D:\\Git\\easylog\\include",
                 "-L",
                 "${workspaceFolder}/unitTests/lib",
                 "-L",
@@ -35,6 +37,8 @@
                 "-l", "opencv_imgcodecs440",
                 "-l", "opencv_videoio440",
                 "-l", "opencv_stitching440",
+                // 链接日志源文件
+                "${workspaceFolder}/unitTests/src/easylogging++.cc",
                 "${file}",
                 // 附加调试信息
                 "-g",
@@ -51,9 +55,12 @@
                 "-I",
                 "${workspaceFolder}/unitTests/headers",
                 "-pthread",
-                "-std=c++17",
+                "-I",
+                "D:\\Git\\log4cpp-1.1.3\\include",
+                "-L", "D:\\Git\\log4cpp-1.1.3\\lib",
+                "-l", "log4cpp",
                 "-o",
-                "${workspaceFolder}/unitTests/out/${fileBasenameNoExtension}.exe"
+                "${workspaceFolder}/unitTests/out/${fileBasenameNoExtension}"
             ],
             "problemMatcher": {
                 "owner": "cpp",

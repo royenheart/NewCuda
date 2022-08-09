@@ -4,9 +4,13 @@
         {
             "name": "Win32",
             "includePath": [
+                // easyLog
+                // cudaFunctions
+                // book
+                // image
                 "${workspaceFolder}/unitTests/headers",
                 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v11.4\\include",
-                // opencv
+                // opencv-4.4.0
                 "D:\\Git\\opencv-4.4.0\\build\\install\\include"
             ],
             "defines": [
@@ -16,7 +20,7 @@
             ],
             "windowsSdkVersion": "10.0.19041.0",
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe",
-            "cStandard": "c17",
+            "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64"
         }
