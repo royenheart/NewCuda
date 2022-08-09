@@ -33,7 +33,8 @@
         "format": "cpp",
         "memory": "cpp",
         "xlocale": "cpp",
-        "locale": "cpp"
+        "locale": "cpp",
+        "utility": "cpp"
     },
     // 自动配置cmake项目
     "cmake.configureOnOpen": false
