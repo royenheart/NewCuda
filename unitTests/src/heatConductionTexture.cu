@@ -14,50 +14,64 @@
 #define MIN_TEMP 0.001f
 #define SPEED 0.25f
 
-__global__ void copy_const_kernel(float *iptr, const float *cptr) {
+texture<float, 2> textIn;
+texture<float, 2> textOut;
+texture<float, 2> textConst;
+
+__global__ void copy_const_kernel(float *iptr) {
     int x = threadIdx.x + blockIdx.x * blockDim.x;
     int y = threadIdx.y + blockIdx.y * blockDim.y;
     int offset = x + y * blockDim.x * gridDim.x;
 
-    if (cptr[offset] != 0) {
-        iptr[offset] = cptr[offset];
+    float c = tex2D(textConst, x, y);
+    if (c != 0) {
+        iptr[offset] = c;
     }
 }
 
-__global__ void blend_kernel(float *outSrc, const float* inSrc) {
+/**
+ * @brief 
+ * 
+ * @param outSrc data destination
+ * @param dstOut is the out source the devOut 
+ */
+__global__ void blend_kernel(float *outSrc, bool dstOut) {
     int x = threadIdx.x + blockIdx.x * blockDim.x;
     int y = threadIdx.y + blockIdx.y * blockDim.y;
     int offset = x + y * blockDim.x * gridDim.x;
 
-    int left = offset - 1;
-    int right = offset + 1;
-    if (x == 0) {
-        left++;
-    }
-    if (x == DIM - 1) {
-        right--;
+    float t, l, c, r, b;
+    // t = (dstOut)?tex2D(textIn, x, y - 1):tex2D(textOut, x, y - 1);
+    // l = (dstOut)?tex2D(textIn, x - 1, y):tex2D(textOut, x - 1, y);
+    // c = (dstOut)?tex2D(textIn, x, y):tex2D(textOut, x, y);
+    // r = (dstOut)?tex2D(textIn, x + 1, y):tex2D(textOut, x + 1, y);
+    // b = (dstOut)?tex2D(textIn, x, y + 1):tex2D(textOut, x, y + 1);
+    if (dstOut) {
+        t = tex2D(textIn, x, y - 1);
+        l = tex2D(textIn, x - 1, y);
+        c = tex2D(textIn, x, y);
+        r = tex2D(textIn, x + 1, y);
+        b = tex2D(textIn, x, y + 1);
+    } else {
+        t = tex2D(textOut, x, y - 1);
+        l = tex2D(textOut, x - 1, y);
+        c = tex2D(textOut, x, y);
+        r = tex2D(textOut, x + 1, y);
+        b = tex2D(textOut, x, y + 1);
     }
 
-    int up = offset - DIM;
-    int bottom = offset + DIM;
-    if (y == 0) {
-        up += DIM;
-    }
-    if (y == DIM - 1) {
-        bottom -= DIM;
-    }
-
-    outSrc[offset] = inSrc[offset] + SPEED * (inSrc[up] + inSrc[bottom] + inSrc[left] + inSrc[right] - inSrc[offset] * 4);
+    outSrc[offset] = c + SPEED * (t + b + l + r - c * 4);
 }
 
-__global__ void float_to_color(unsigned char *bitmap, float* thermal_grid) {
+__global__ void float_to_color(unsigned char *bitmap, bool dstOut) {
     int x = threadIdx.x + blockIdx.x * blockDim.x;
     int y = threadIdx.y + blockIdx.y * blockDim.y;
     int offset = x + y * blockDim.x * gridDim.x;
 
-    bitmap[offset * 4 + 0] = (int)(255 * thermal_grid[offset]);
-    bitmap[offset * 4 + 1] = (int)(255 * thermal_grid[offset]);
-    bitmap[offset * 4 + 2] = (int)(255 * thermal_grid[offset]);
+    float c = (dstOut)?tex2D(textOut, x, y):tex2D(textIn, x, y);
+    bitmap[offset * 4 + 0] = (int)(255 * c);
+    bitmap[offset * 4 + 1] = (int)(255 * c);
+    bitmap[offset * 4 + 2] = (int)(255 * c);
     bitmap[offset * 4 + 3] = 255;
 }
 
@@ -67,13 +81,17 @@ void anim_gpu(DataBlock *d, int ticks = 90) {
     dim3 threads(16, 16); 
     IMAGE<float> *bitmap = d->bitmap;
 
+    volatile bool dstOut = true;
     for (int i = 0; i < ticks; i++) {
-        copy_const_kernel<<<grids, threads>>>(d->dev_inSrc, d->dev_constSrc);
-        blend_kernel<<<grids, threads>>>(d->dev_outSrc, d->dev_inSrc);
-        swap(d->dev_inSrc, d->dev_outSrc);
+        float *in, *out;
+        in = (dstOut)?d->dev_inSrc:d->dev_outSrc;
+        out = (dstOut)?d->dev_outSrc:d->dev_inSrc;
+        copy_const_kernel<<<grids, threads>>>(in);
+        blend_kernel<<<grids, threads>>>(out, dstOut);
+        dstOut = !dstOut;
     }
 
-    float_to_color<<<grids, threads>>>(d->output_bitmap, d->dev_inSrc);
+    float_to_color<<<grids, threads>>>(d->output_bitmap, !dstOut);
 
     cudaMemcpy(bitmap->get_ptr(), d->output_bitmap, bitmap->image_size(), cudaMemcpyDeviceToHost);
 
@@ -90,6 +108,9 @@ void anim_gpu(DataBlock *d, int ticks = 90) {
 }
 
 void anim_exit(DataBlock *d) {
+    cudaUnbindTexture(textIn);
+    cudaUnbindTexture(textOut);
+    cudaUnbindTexture(textConst);
     cudaFree(d->dev_constSrc);
     cudaFree(d->dev_inSrc);
     cudaFree(d->dev_outSrc);
@@ -104,7 +125,7 @@ int main(int argc, char *argv[]) {
     srand(timeSeed.time * 1000 + timeSeed.millitm);
 
     DataBlock data;
-    IMAGE<float> bitmap(DIM, DIM);
+    IMAGE<float> bitmap = IMAGE<float>(DIM, DIM, "head conductions");
     data.bitmap = &bitmap;
     data.totalTime = 0;
     data.frams = 0;
@@ -115,6 +136,11 @@ int main(int argc, char *argv[]) {
     cudaMalloc((void**)&data.dev_inSrc, bitmap.image_size());
     cudaMalloc((void**)&data.dev_outSrc, bitmap.image_size());
     cudaMalloc((void**)&data.dev_constSrc, bitmap.image_size());
+
+    cudaChannelFormatDesc desc = cudaCreateChannelDesc<float>();
+    cudaBindTexture2D(NULL, textIn, data.dev_inSrc, desc, DIM, DIM, sizeof(float) * DIM);
+    cudaBindTexture2D(NULL, textOut, data.dev_outSrc, desc, DIM, DIM, sizeof(float) * DIM);
+    cudaBindTexture2D(NULL, textConst, data.dev_constSrc, desc, DIM, DIM, sizeof(float) * DIM);
 
     float *temp_const = (float*)malloc(bitmap.image_size());
     float *temp_in = (float*)malloc(bitmap.image_size());

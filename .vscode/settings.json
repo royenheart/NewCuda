@@ -34,7 +34,10 @@
         "memory": "cpp",
         "xlocale": "cpp",
         "locale": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "iostream": "cpp",
+        "system_error": "cpp",
+        "algorithm": "cpp"
     },
     // 自动配置cmake项目
     "cmake.configureOnOpen": false

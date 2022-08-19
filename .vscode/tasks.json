@@ -47,6 +47,46 @@
             ]
         },
         {
+            "label": "BuildWithNVCC unit tests without log",
+            "type": "shell",
+            "command": "nvcc",
+            "args": [
+                "-ccbin",
+                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64",
+                "-I",
+                "${workspaceFolder}/unitTests/headers",
+                "-I",
+                "D:\\Git\\opencv-4.4.0\\build\\install\\include",
+                "-I",
+                "D:\\Git\\easylog\\include",
+                "-L",
+                "${workspaceFolder}/unitTests/lib",
+                "-L",
+                "D:\\Git\\opencv-4.4.0\\build\\install\\x64\\vc16\\lib",
+                "-l", "opencv_core440",
+                "-l", "opencv_imgproc440",
+                "-l", "opencv_imgcodecs440",
+                "-l", "opencv_video440",
+                "-l", "opencv_ml440",
+                "-l", "opencv_highgui440",
+                "-l", "opencv_objdetect440",
+                "-l", "opencv_calib3d440",
+                "-l", "opencv_dnn440",
+                "-l", "opencv_features2d440",
+                "-l", "opencv_flann440",
+                "-l", "opencv_gapi440",
+                "-l", "opencv_photo440",
+                "-l", "opencv_imgcodecs440",
+                "-l", "opencv_videoio440",
+                "-l", "opencv_stitching440",
+                // 附加调试信息
+                "${file}",
+                "-g",
+                "-o",
+                "${workspaceFolder}/unitTests/out/${fileBasenameNoExtension}"
+            ]
+        },
+        {
             "label": "BuildWithG++ unit tests",
             "command": "g++",
             "args": [

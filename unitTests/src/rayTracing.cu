@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
     cudaEventCreate(&stop);
     cudaEventRecord(start, 0);
 
-    IMAGE image(DIM, DIM);
+    IMAGE<float> image(DIM, DIM);
     unsigned char *dev_bitmap;
 
     cudaMalloc((void**)&dev_bitmap, image.image_size());
