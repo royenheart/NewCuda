@@ -10,16 +10,20 @@
             "command": "nvcc",
             "args": [
                 "-ccbin",
+                // 替换至对应目录
                 "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64",
                 "-I",
                 "${workspaceFolder}/unitTests/headers",
                 "-I",
+                // 替换至对应目录
                 "D:\\Git\\opencv-4.4.0\\build\\install\\include",
                 "-I",
+                // 替换至对应目录
                 "D:\\Git\\easylog\\include",
                 "-L",
                 "${workspaceFolder}/unitTests/lib",
                 "-L",
+                // 替换至对应目录
                 "D:\\Git\\opencv-4.4.0\\build\\install\\x64\\vc16\\lib",
                 "-l", "opencv_core440",
                 "-l", "opencv_imgproc440",
@@ -52,16 +56,20 @@
             "command": "nvcc",
             "args": [
                 "-ccbin",
+                // 替换至对应目录
                 "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64",
                 "-I",
                 "${workspaceFolder}/unitTests/headers",
                 "-I",
+                // 替换至对应目录
                 "D:\\Git\\opencv-4.4.0\\build\\install\\include",
                 "-I",
+                // 替换至对应目录
                 "D:\\Git\\easylog\\include",
                 "-L",
                 "${workspaceFolder}/unitTests/lib",
                 "-L",
+                // 替换至对应目录
                 "D:\\Git\\opencv-4.4.0\\build\\install\\x64\\vc16\\lib",
                 "-l", "opencv_core440",
                 "-l", "opencv_imgproc440",
@@ -96,7 +104,9 @@
                 "${workspaceFolder}/unitTests/headers",
                 "-pthread",
                 "-I",
+                // 替换至对应目录
                 "D:\\Git\\log4cpp-1.1.3\\include",
+                // 替换至对应目录
                 "-L", "D:\\Git\\log4cpp-1.1.3\\lib",
                 "-l", "log4cpp",
                 "-o",

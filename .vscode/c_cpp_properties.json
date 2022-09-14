@@ -9,8 +9,10 @@
                 // book
                 // image
                 "${workspaceFolder}/unitTests/headers",
+                // 替换至对应目录
                 "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v11.4\\include",
                 // opencv-4.4.0
+                // 替换至对应目录
                 "D:\\Git\\opencv-4.4.0\\build\\install\\include"
             ],
             "defines": [
@@ -19,10 +21,28 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.19041.0",
+            // 替换至对应目录
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-msvc-x64"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                // cudaFunctions
+                // book
+                // image
+                "${workspaceFolder}/unitTests/headers",
+                // opencv-4.6.0
+                // 替换至对应目录
+                "/home/royenheart/softwares/opencv-4.6.0/include/opencv4"
+            ],
+            // 替换至对应目录
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4

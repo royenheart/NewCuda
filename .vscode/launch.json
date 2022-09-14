@@ -49,6 +49,7 @@
             "cwd": "${workspaceFolder}/unitTests/out", // 调试程序时的工作目录，一般为${workspaceRoot}即代码所在目录  
             "environment": [],
             "MIMode": "gdb",  
+            // 替换至对应目录
             "miDebuggerPath": "D:\\mingw\\mingw64\\bin\\gdb.exe", // miDebugger的路径，注意这里要与MinGw的路径对应  
             "preLaunchTask": "BuildWithG++ unit tests", // 调试会话开始前执行的任务，一般为编译程序，c++为g++, c为gcc  
             "setupCommands": [  

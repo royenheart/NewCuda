@@ -50,7 +50,7 @@ __global__ void kernel(unsigned char *ptr) {
 }
 
 int main(int argc, char *argv) {
-    IMAGE image(DIM, DIM);
+    IMAGE<float> image(DIM, DIM);
     unsigned char *dev_bitmap;
 
     cudaMalloc((void**)&dev_bitmap, image.image_size());

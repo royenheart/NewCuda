@@ -2,3 +2,5 @@ materials/*
 cudaToolkitDocs/*
 vc140.pdb
 unitTests/out/*
+unitTests/build
+.vscode/settings.json

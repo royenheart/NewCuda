@@ -6,6 +6,7 @@
     #include <sys/timeb.h>
 #else
     #include <sys/time.h>
+    #include <sys/timeb.h>
 #endif
 
 #define DIM 512
