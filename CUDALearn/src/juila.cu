@@ -1,4 +1,3 @@
-#include "book.h"
 #include "image.h"
 
 #define DIM 500

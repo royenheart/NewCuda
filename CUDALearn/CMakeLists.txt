@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.16.3)
 
-project(NewCUDA_unittest LANGUAGES CXX CUDA)
+project(NewCUDA_cudaLearn LANGUAGES CXX CUDA)
 
 include_directories(${CMAKE_SOURCE_DIR}/headers)
 
 # OpenCV required
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 4.4.0 REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 link_libraries(${OpenCV_LIBS})
 
@@ -23,10 +23,6 @@ add_executable(atomOptGPU
 
 add_executable(bitmap_sharedMem
     ${CMAKE_SOURCE_DIR}/src/bitmap_sharedMem.cu
-)
-
-add_executable(bookTest
-    ${CMAKE_SOURCE_DIR}/src/bookTest.cu
 )
 
 add_executable(cudaMultiStream

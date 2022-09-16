@@ -1,6 +1,10 @@
-materials/*
-cudaToolkitDocs/*
+.vscode
 vc140.pdb
-unitTests/out/*
-unitTests/build
-.vscode/settings.json
+
+CGameOfLife/build
+CGameOfLife/test/build
+
+CUDALearn/out
+CUDALearn/build
+
+GrabCUDADocs/target

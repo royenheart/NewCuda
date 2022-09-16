@@ -1,6 +1,6 @@
-#include "book.h"
 #include <cstdlib>
 #include "time.h"
+#include "image.h"
 
 #define SIZE (100 * 1024 * 1024)
 

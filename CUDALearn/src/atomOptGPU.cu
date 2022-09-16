@@ -1,4 +1,4 @@
-#include "book.h"
+#include "image.h"
 #include <cstdlib>
 #include "time.h"
 

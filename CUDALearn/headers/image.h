@@ -11,8 +11,17 @@ using namespace std;
 
 using namespace cv;
 
+void* big_random_block( int size ) {
+    unsigned char *data = (unsigned char*)malloc( size );
+    for (int i=0; i<size; i++)
+        data[i] = rand();
+
+    return data;
+}
+
 typedef struct DataBlock DataBlock;
 typedef struct BoolBlock BoolBlock;
+
 template<typename rawImageT>
 class IMAGE {
 public:
