@@ -1,12 +1,18 @@
+# windows
+*.exe
+*.pdb
+
+# vscode
 .vscode
-vc140.pdb
 
-CGameOfLife/build
-CGameOfLife/test/build
+# output
+out
 
-CUDALearn/out
-CUDALearn/build
+# build
+build
 
-GrabCUDADocs/target
+# build test
+test_*
 
-materials
+# getCUDADocs maven target
+getCUDADocs/target

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <cuda_runtime.h>
 
 #define imin(a,b) (a<b?a:b)
 #define MAX_ELEMENTS 32 * 1024
@@ -40,7 +41,7 @@ __global__ void dotMul(float *a, float *b, float *c) {
     }
 }
 
-int main(int argc, char *argv) {
+int main(int argc, char *argv[]) {
     float *a, *b, c, *partial_c;
     float *dev_a, *dev_b, *dev_partial_c;
 

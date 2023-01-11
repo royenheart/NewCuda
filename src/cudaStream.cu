@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <iostream>
-#include <cuda.h>
+#include <cuda_runtime.h>
 
 #ifdef _WIN32
     #include <time.h>
@@ -47,19 +47,15 @@ int main(int argc, char* argv[]) {
     cudaEventCreate(&stop);
     cudaEventRecord(start, 0);
 
-    cudaStream_t stream1, stream2;
-    cudaStreamCreate(&stream1);
-    cudaStreamCreate(&stream2);
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
 
     int *hosta, *hostb, *hostc;
-    int *deva1, *deva2, *devb1, *devb2, *devc1, *devc2;
+    int *deva, *devb, *devc;
 
-    cudaMalloc((void**)&deva1, INT_FULL_DATA_SIZE);
-    cudaMalloc((void**)&devb1, INT_FULL_DATA_SIZE);
-    cudaMalloc((void**)&deva2, INT_FULL_DATA_SIZE);
-    cudaMalloc((void**)&devb2, INT_FULL_DATA_SIZE);
-    cudaMalloc((void**)&devc1, INT_FULL_DATA_SIZE);
-    cudaMalloc((void**)&devc2, INT_FULL_DATA_SIZE);
+    cudaMalloc((void**)&deva, INT_FULL_DATA_SIZE);
+    cudaMalloc((void**)&devb, INT_FULL_DATA_SIZE);
+    cudaMalloc((void**)&devc, INT_FULL_DATA_SIZE);
 
     cudaHostAlloc((void**)&hosta, INT_FULL_DATA_SIZE, cudaHostAllocDefault);
     cudaHostAlloc((void**)&hostb, INT_FULL_DATA_SIZE, cudaHostAllocDefault);
@@ -70,19 +66,14 @@ int main(int argc, char* argv[]) {
         hostb[i] = rand();
     }
 
-    for (int i = 0; i < FULL_DATA_SIZE; i += 2 * N) {
-        cudaMemcpyAsync(deva1, hosta + i, INT_N, cudaMemcpyHostToDevice, stream1);
-        cudaMemcpyAsync(deva2, hosta + i + N, INT_N, cudaMemcpyHostToDevice, stream2);
-        cudaMemcpyAsync(devb1, hostb + i, INT_N, cudaMemcpyHostToDevice, stream1);
-        cudaMemcpyAsync(devb2, hostb + i + N, INT_N, cudaMemcpyHostToDevice, stream2);
-        kernel<<<N / 256, 256, 0, stream1>>>(deva1, devb1, devc1);
-        kernel<<<N / 256, 256, 0, stream2>>>(deva2, devb2, devc2);
-        cudaMemcpyAsync(hostc + i, devc1, INT_N, cudaMemcpyDeviceToHost, stream1);
-        cudaMemcpyAsync(hostc + i + N, devc2, INT_N, cudaMemcpyDeviceToHost, stream2);
+    for (int i = 0; i < FULL_DATA_SIZE; i += N) {
+        cudaMemcpyAsync(deva, hosta + i, INT_N, cudaMemcpyHostToDevice, stream);
+        cudaMemcpyAsync(devb, hostb + i, INT_N, cudaMemcpyHostToDevice, stream);
+        kernel<<<N / 256, 256, 0, stream>>>(deva, devb, devc);
+        cudaMemcpyAsync(hostc + i, devc, INT_N, cudaMemcpyDeviceToHost, stream);
     }
 
-    cudaStreamSynchronize(stream1);
-    cudaStreamSynchronize(stream2);
+    cudaStreamSynchronize(stream);
     cudaEventRecord(stop, 0);
     cudaEventSynchronize(stop);
 
@@ -93,16 +84,12 @@ int main(int argc, char* argv[]) {
     cudaFreeHost(hosta);
     cudaFreeHost(hostb);
     cudaFreeHost(hostc);
-    cudaFree(deva1);
-    cudaFree(devb1);
-    cudaFree(devc1);
-    cudaFree(deva2);
-    cudaFree(devb2);
-    cudaFree(devc2);
+    cudaFree(deva);
+    cudaFree(devb);
+    cudaFree(devc);
     cudaEventDestroy(start);
     cudaEventDestroy(stop);
-    cudaStreamDestroy(stream1);
-    cudaStreamDestroy(stream2);
+    cudaStreamDestroy(stream);
 
     return 0;
 }

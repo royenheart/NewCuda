@@ -11,7 +11,7 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <cuda.h>
+#include <cuda_runtime.h>
 
 #define imin(a,b) (a<b?a:b)
 #define N 20 * 1024 * 1024

@@ -1,6 +1,15 @@
-#include "image.h"
 #include <cstdlib>
-#include "time.h"
+#include <cstdio>
+#include "data.hpp"
+#include <cuda_runtime.h>
+
+#ifdef _WIN32
+    #include <time.h>
+    #include <sys/timeb.h>
+#else
+    #include <sys/time.h>
+    #include <sys/timeb.h>
+#endif
 
 #define SIZE (100 * 1024 * 1024)
 

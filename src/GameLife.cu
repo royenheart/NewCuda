@@ -1,5 +1,7 @@
-#include "image.h"
+#include "image.hpp"
+#include "block.hpp"
 #include <cstdlib>
+#include <cuda_runtime.h>
 
 #define DIM 512
 
@@ -70,7 +72,7 @@ __global__ void float_to_color(unsigned char *bitmap, bool *map) {
 void anim_gpu(BoolBlock *d, int ticks = 90) {
     cudaEventRecord(d->start, 0);
     dim3 grids(DIM / 16, DIM / 16);
-    dim3 threads(16, 16); 
+    dim3 threads(16, 16);
     IMAGE<bool> *bitmap = d->bitmap;
 
     for (int i = 0; i < ticks; i++) {

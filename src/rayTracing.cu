@@ -9,9 +9,9 @@
  * 
  */
 
-#include <cuda.h>
-#include "image.h"
+#include "image.hpp"
 #include <cstdlib>
+#include <cuda_runtime.h>
 
 #ifdef _WIN32
     #include <time.h>
@@ -122,5 +122,4 @@ int main(int argc, char **argv) {
     
     cudaFree(s);
     cudaFree(dev_bitmap);
-    
 }

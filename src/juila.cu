@@ -1,4 +1,5 @@
-#include "image.h"
+#include "image.hpp"
+#include <cuda_runtime.h>
 
 #define DIM 500
 
@@ -48,7 +49,7 @@ __global__ void kernel(unsigned char *ptr) {
     ptr[offset * 4 + 3] = 255;
 }
 
-int main(int argc, char *argv) {
+int main(int argc, char *argv[]) {
     IMAGE<float> image(DIM, DIM);
     unsigned char *dev_bitmap;
 

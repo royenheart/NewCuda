@@ -1,6 +1,6 @@
-#include <cuda.h>
 #include <cstdlib>
 #include <iostream>
+#include <cuda_runtime.h>
 
 #define N 32 * 1024 * 1024
 #define imin(a,b) (a<b?a:b)
