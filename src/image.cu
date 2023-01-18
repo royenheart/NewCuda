@@ -9,8 +9,8 @@
  * 
  */
 
-#include "image.hpp"
-#include "block.hpp"
+#include "../inc/image.cuh"
+#include "../inc/block.cuh"
 #include <cstdlib>
 
 template<typename rawImageT>

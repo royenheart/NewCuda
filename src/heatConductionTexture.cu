@@ -1,6 +1,6 @@
 #include <cuda_runtime.h>
-#include "image.hpp"
-#include "block.hpp"
+#include "../inc/image.cuh"
+#include "../inc/block.cuh"
 
 #ifdef _WIN32
     #include <time.h>

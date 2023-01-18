@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <cstdio>
-#include "data.hpp"
+#include "../inc/data.cuh"
 
 #ifdef _WIN32
     #include <time.h>

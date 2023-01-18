@@ -1,5 +1,5 @@
-#include "image.hpp"
 #include <cuda_runtime.h>
+#include "../inc/image.cuh"
 
 #define DIM 500
 

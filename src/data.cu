@@ -1,4 +1,4 @@
-#include "data.hpp"
+#include "../inc/data.cuh"
 #include <cstdlib>
 
 void* big_random_block(int size) {

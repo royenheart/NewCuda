@@ -1,5 +1,5 @@
-#include "image.hpp"
-#include "block.hpp"
+#include "../inc/image.cuh"
+#include "../inc/block.cuh"
 #include <cuda_runtime.h>
 
 #ifdef _WIN32

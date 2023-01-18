@@ -1,5 +1,5 @@
 #include <cuda_runtime.h>
-#include "image.hpp"
+#include "../inc/image.cuh"
 
 #define DIM 512
 #define PI 3.1415926535f

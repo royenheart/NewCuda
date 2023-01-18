@@ -9,7 +9,8 @@
 out
 
 # build
-build
+builds
+.xmake
 
 # build test
 test_*

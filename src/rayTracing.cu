@@ -9,7 +9,7 @@
  * 
  */
 
-#include "image.hpp"
+#include "../inc/image.cuh"
 #include <cstdlib>
 #include <cuda_runtime.h>
 

@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <cstdio>
-#include "data.hpp"
+#include "../inc/data.cuh"
 #include <cuda_runtime.h>
 
 #ifdef _WIN32
@@ -69,7 +69,7 @@ int main() {
     for (int i = 0; i < 256; i++) {
         countSize += dev_histo[i];
     }
-    printf("device cal count size %d\n", countSize);
+    printf("device cal count size %ld\n", countSize);
 
     for (unsigned int i = 0; i < SIZE; i++) {
         dev_histo[buffer[i]]--;

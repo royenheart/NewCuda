@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "image.hpp"
+#include "image.cuh"
 #include <cuda_runtime.h>
 
 typedef struct DataBlock DataBlock;
